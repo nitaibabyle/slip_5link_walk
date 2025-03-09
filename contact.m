@@ -1,0 +1,17 @@
+function [gstop,isterminal,direction]=contact(t,z,slip)
+x=z(1);
+xd=z(2);
+y=z(3);
+yd=z(4);
+q1=z(5);
+qd1=z(6);
+q2=z(7);
+qd2=z(8);
+q3=z(9);
+qd3=z(10);
+zzz=[q1,qd1,q2,qd2,q3,qd3];
+[a,b,PG3]=COM_kinematic(zzz,0,slip);
+    virtual_leg_length =norm(PG3(1:2));
+    gstop = y-virtual_leg_length;
+    direction = -1;
+    isterminal = 1;

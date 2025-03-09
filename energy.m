@@ -1,0 +1,25 @@
+function [KE, PE] = energy(t,z,slip)
+m1=slip.m1;
+m2=slip.m2;
+m3=slip.m3;
+g=slip.g;
+l1=slip.l1;
+l2=slip.l2;
+l3=slip.l3;
+a1=slip.a1;
+a2=slip.a2;
+a3=slip.a3;
+I1_3=slip.I1(3,3);
+I2_3=slip.I2(3,3);
+I3_3=slip.I3(3,3);
+q1 = z(5);                          
+qd1 = z(6);                          
+q2 = z(7);                         
+qd2 = z(8);  
+q3 = z(9);                         
+qd3 = z(10);  
+qd=[qd1;qd2;qd3];
+q=[q1;q2;q3];
+
+KE = (m3*((qd2*(l2*(cos(q1)*cos(q2) - sin(q1)*sin(q2)) + a3*(cos(q3)*(cos(q1)*cos(q2) - sin(q1)*sin(q2)) - sin(q3)*(cos(q1)*sin(q2) + cos(q2)*sin(q1)))) + qd1*(l2*(cos(q1)*cos(q2) - sin(q1)*sin(q2)) + l1*cos(q1) + a3*(cos(q3)*(cos(q1)*cos(q2) - sin(q1)*sin(q2)) - sin(q3)*(cos(q1)*sin(q2) + cos(q2)*sin(q1)))) + a3*qd3*(cos(q3)*(cos(q1)*cos(q2) - sin(q1)*sin(q2)) - sin(q3)*(cos(q1)*sin(q2) + cos(q2)*sin(q1))))^2 + (qd2*(l2*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + a3*(cos(q3)*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + sin(q3)*(cos(q1)*cos(q2) - sin(q1)*sin(q2)))) + qd1*(l2*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + l1*sin(q1) + a3*(cos(q3)*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + sin(q3)*(cos(q1)*cos(q2) - sin(q1)*sin(q2)))) + a3*qd3*(cos(q3)*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + sin(q3)*(cos(q1)*cos(q2) - sin(q1)*sin(q2))))^2))/2 + (I1_3*qd1^2)/2 + (m2*((qd1*(a2*(cos(q1)*cos(q2) - sin(q1)*sin(q2)) + l1*cos(q1)) + a2*qd2*(cos(q1)*cos(q2) - sin(q1)*sin(q2)))^2 + (qd1*(a2*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + l1*sin(q1)) + a2*qd2*(cos(q1)*sin(q2) + cos(q2)*sin(q1)))^2))/2 + (m1*(a1^2*qd1^2*cos(q1)^2 + a1^2*qd1^2*sin(q1)^2))/2 + I3_3*(qd1 + qd2 + qd3)*(qd1/2 + qd2/2 + qd3/2) + I2_3*(qd1/2 + qd2/2)*(qd1 + qd2);
+PE = g*m3*(l2*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + l1*sin(q1) + a3*(cos(q3)*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + sin(q3)*(cos(q1)*cos(q2) - sin(q1)*sin(q2)))) + g*m2*(a2*(cos(q1)*sin(q2) + cos(q2)*sin(q1)) + l1*sin(q1)) + a1*g*m1*sin(q1);
